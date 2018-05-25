@@ -41,12 +41,15 @@
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
+        [[EMMSecurity share] applicationLaunchingWithAppId:EMMAppid];
+        [EMMSecurity share].delegate = self;
+    
 //    self.viewController = [[MainViewController alloc] init];
-//    return [super application:application didFinishLaunchingWithOptions:launchOptions];
+    
+    return [super application:application didFinishLaunchingWithOptions:launchOptions];
 
-    [[EMMSecurity share] applicationLaunchingWithAppId:EMMAppid];
-    [EMMSecurity share].delegate = self;
-    return YES;
+
+    //return YES;
 }
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
@@ -89,7 +92,11 @@
 {
     NSLog(@"securityVerifySuccess verifyType = %d",verifyType);
     if ( verifyType == TokenVerify || verifyType == EncryptionVerify || verifyType == PasswordVerify) {
-        self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"MainViewController"];
+        NSLog(@"userId>>>%@",[EMMSecurity share].userId);
+        NSLog(@"token>>>%@",[EMMSecurity share].token);
+        
+        MainViewController *controller = (MainViewController *)self.window.rootViewController;
+        
     }
 }
 
